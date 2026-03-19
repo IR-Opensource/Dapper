@@ -9,26 +9,23 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build and Test Dapper
-
     steps:
-      # Checkout the repo
-      - uses: actions/checkout@v2
+      - name: Checkout repo with full history
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          tags: true
 
-      # Setup .NET SDK
       - name: Setup .NET 9
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 9.0.100-rc.2.24474.11
 
-      # Restore dependencies using the solution
       - name: Restore dependencies
         run: dotnet restore Dapper.sln
 
-      # Build all projects in the solution
       - name: Build (skip analyzers)
         run: dotnet build Dapper.sln --no-restore /p:RunAnalyzers=false
 
-      # Run tests for all test projects
       - name: Test
         run: dotnet test Dapper.sln --no-build --verbosity normal
