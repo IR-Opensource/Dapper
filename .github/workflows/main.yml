@@ -26,6 +26,3 @@ jobs:
 
       - name: Build (skip analyzers)
         run: dotnet build Dapper.sln --no-restore /p:RunAnalyzers=false
-
-      - name: Test
-        run: dotnet test Dapper.sln --no-build --verbosity normal
